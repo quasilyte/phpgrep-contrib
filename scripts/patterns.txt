@@ -86,9 +86,9 @@
 'explode($_, ${"str"}, ${"*"})'
 'array_diff($x, $x)'
 'array_intersect($x, $x)'
-'array_filter(function($_) { ${"*"}; }, $_)'
-'array_map($_, function($_) { ${"*"}; })'
-'array_reduce(function($_) { ${"*"}; }, $_)'
+'array_filter(${"func"}, $_)'
+'array_reduce(${"func"}, $_)'
+'array_map($_, ${"func"})'
 
 # Duplicated sub-expressions inside boolean expressions.
 '$x && $x'
