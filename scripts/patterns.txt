@@ -1,0 +1,109 @@
+# Self-assignments are a bad smell in 99% of cases.
+'$x = $x'
+
+# Suspicious empty body of the if statement.
+'if ($_);'
+
+# Using assignment as expression inside boolean context.
+'for ($_; $_ = []; $_) $_'
+'for ($_; $_ = ""; $_) $_'
+'for ($_; $_ = ${"const"}; $_) $_'
+'for ($_; $_ = ${"num"}; $_) $_'
+'for ($_; $_ = ${"str"}; $_) $_'
+'while ($_ = []) $_'
+'while ($_ = "") $_'
+'while ($_ = ${"const"}) $_'
+'while ($_ = ${"num"}) $_'
+'while ($_ = ${"str"}) $_'
+'if ($_ = []) $_'
+'if ($_ = "") $_'
+'if ($_ = ${"const"}) $_'
+'if ($_ = ${"str"}) $_'
+'if ($_ = ${"num"}) $_'
+'$_ = [] ? $_ : $_'
+'$_ = "" ? $_ : $_'
+'$_ = ${"const"} ? $_ : $_'
+'$_ = ${"str"} ? $_ : $_'
+'$_ = ${"num"} ? $_ : $_'
+'($_ = []) && $_'
+'($_ = "") && $_'
+'($_ = ${"const"}) && $_'
+'($_ = ${"str"}) && $_'
+'($_ = ${"num"}) && $_'
+'$_ && $_ = []'
+'$_ && $_ = ""'
+'$_ && $_ = ${"const"}'
+'$_ && $_ = ${"str"}'
+'$_ && $_ = ${"num"}'
+'($_ = []) || $_'
+'($_ = "") || $_'
+'($_ = ${"const"}) || $_'
+'($_ = ${"str"}) || $_'
+'($_ = ${"num"}) || $_'
+'$_ || $_ = []'
+'$_ || $_ = ""'
+'$_ || $_ = ${"const"}'
+'$_ || $_ = ${"str"}'
+'$_ || $_ = ${"num"}'
+
+# Suspicious (and sometimes always true/false) boolean expressions.
+'$x != $a || $x != $b'
+'$x !== $a || $x != $b'
+'$x != $a || $x !== $b'
+'$x !== $a || $x !== $b'
+'$x == $a || $x != $b'
+'$x == $a || $x !== $b'
+'$x === $a || $x != $b'
+'$x === $a || $x !== $b'
+'$x == $a && $x != $b'
+'$x == $a && $x !== $b'
+'$x === $a && $x != $b'
+'$x === $a && $x !== $b'
+
+# Potential issues due to the operators precedence.
+'$x & $mask == $y'
+'$x & $mask === $y'
+'$x & $mask !== $y'
+'$x & $mask != $y'
+'$x | $mask == $y'
+'$x | $mask === $y'
+'$x | $mask !== $y'
+'$x | $mask != $y'
+
+# Potentially incorrect usage of ternary operator (due to the precedence).
+'$_ == $_ ? $_ : $_ ? $_ : $_'
+'$_ === $_ ? $_ : $_ ? $_ : $_'
+'$_ != $_ ? $_ : $_ ? $_ : $_'
+'$_ !== $_ ? $_ : $_ ? $_ : $_'
+
+# Duplicated true-false branches.
+'$_ ? $x : $x'
+'if ($cond) $x; else $x'
+
+# Incorrect/suspicious order of arguments.
+'stripos(${"str"}, ${"*"})'
+'strpos(${"str"}, ${"*"})'
+'explode($_, ${"str"}, ${"*"})'
+'array_diff($x, $x)'
+'array_intersect($x, $x)'
+'array_filter(function($_) { ${"*"}; }, $_)'
+'array_map($_, function($_) { ${"*"}; })'
+'array_reduce(function($_) { ${"*"}; }, $_)'
+
+# Duplicated sub-expressions inside boolean expressions.
+'$x && $x'
+'$x && $_ && $x'
+'$x && $_ && $_ && $x'
+'$x && $_ && $_ && $_ && $x'
+'$x || $x'
+'$x || $_ || $x'
+'$x || $_ || $_ || $x'
+'$x || $_ || $_ || $_ || $x'
+
+# Duplicated array keys.
+'[${"*"}, $k => $_, ${"*"}, $k => $_, ${"*"}]'
+
+# Suspicious array keys (they are converted to ints).
+'[${"*"}, null => $_, ${"*"}]'
+'[${"*"}, true => $_, ${"*"}]'
+'[${"*"}, false => $_, ${"*"}]'
