@@ -3,8 +3,9 @@
 if [ $# -eq 0 ]; then
     echo 'Usage: phpgrep-lint.sh target patterns_file'
     echo 'Where:'
-    echo '  target is a file or directory name where search is performed'
-    echo '  patterns_file is a file with newline-separated phpgrep pattern args'
+    echo '  target is a file or directory name where search is performed.'
+    echo '  patterns_file is a file with newline-separated phpgrep pattern args.'
+    echo '                File can contain #-comments and empty lines.'
     echo ''
     echo 'Examples:'
     echo '  ./phpgrep-lint.sh file.php patterns.txt'
@@ -33,6 +34,15 @@ fi
 found_issues=0
 
 for pattern in "${patterns[@]}"; do
+    # Treat lines starting with "#" as comments.
+    if [ "${pattern:0:1}" = '#' ]; then
+        continue
+    fi
+    # Skip empty lines.
+    if [ -z "$pattern" ]; then
+        continue
+    fi
+
     # $pattern is unquoted on purpose, to allow passing filter args as well.
     # phpgrep "$flag_target" ${pattern[@]}
     eval phpgrep "$flag_target" $pattern
