@@ -17,8 +17,6 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-mapfile -t patterns < patterns.txt
-
 flag_target=$1
 flag_patterns_file=$2
 
@@ -30,6 +28,8 @@ if [ -z "$flag_patterns_file" ]; then
     echo "patterns filename argument (2nd positional) can't be empty"
     exit 1
 fi
+
+mapfile -t patterns < "$flag_patterns_file"
 
 found_issues=0
 
