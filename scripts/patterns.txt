@@ -1,8 +1,21 @@
+# Find unescaped "." (dots) inside regexps that match URLs.
+'preg_match(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org)\b'
+'preg_match_all(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org)\b'
+'preg_replace(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org)\b'
+'preg_replace_callback(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org)\b'
+'preg_replace_callback_array(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org)\b'
+'preg_filter(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org)\b'
+'preg_grep(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org)\b'
+'preg_split(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org)\b'
+
 # Self-assignments are a bad smell in 99% of cases.
 '$x = $x'
 
 # Suspicious empty body of the if statement.
 'if ($_);'
+
+# Using "==" instead of "=" inside init context.
+'for ($_ == $_; $_; $_) $_'
 
 # Using assignment as expression inside boolean context.
 'for ($_; $_ = []; $_) $_'
@@ -101,9 +114,18 @@
 '$x || $_ || $_ || $_ || $x'
 
 # Duplicated array keys.
-'[${"*"}, $k => $_, ${"*"}, $k => $_, ${"*"}]'
+'[${"*"}, $k => $_, ${"*"}, $k => $_, ${"*"}]
 
-# Suspicious array keys (they are converted to ints).
-'[${"*"}, null => $_, ${"*"}]'
-'[${"*"}, true => $_, ${"*"}]'
-'[${"*"}, false => $_, ${"*"}]'
+# Using "==" for string comparison (should use "===" instead).
+'${"s:str"} == $x' 's~^.\d'
+'$x == ${"s:str"}' 's~^.\d'
+
+# Using "==" when comparing against falsy constant.
+'false == $x'
+'$x == false'
+'null == $x'
+'$x == null'
+'false != $x'
+'$x != false'
+'null != $x'
+'$x != null'
