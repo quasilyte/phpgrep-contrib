@@ -114,7 +114,7 @@
 '$x || $_ || $_ || $_ || $x'
 
 # Duplicated array keys.
-'[${"*"}, $k => $_, ${"*"}, $k => $_, ${"*"}]
+'[${"*"}, $k => $_, ${"*"}, $k => $_, ${"*"}]'
 
 # Using "==" for string comparison (should use "===" instead).
 '${"s:str"} == $x' 's~^.\d'
